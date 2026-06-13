@@ -38,10 +38,21 @@ public class ProductController {
 
     //GETTING ALL PRODUCTS
     @GetMapping("products")
-    List<ProductDto> getAllProducts()
-    {
-        List<ProductDto> productDtos=new ArrayList<>();
-        return productDtos;
+    List<ProductDto> getAllProducts(){
+        List<ProductDto> productDTOS = new ArrayList<>();
+        /*
+        call the service layer to get all products
+         */
+
+        List<Product> products = productService.getAllProducts();
+
+        if(products != null){
+            for(Product product : products){
+                productDTOS.add(product.covert(product));
+            }
+        }
+
+        return productDTOS;
     }
 
 
@@ -49,8 +60,40 @@ public class ProductController {
     @PostMapping("/product")
     ProductDto createProduct(@RequestBody ProductDto prod)
     {
-        ProductDto productDto1=new ProductDto();
-        return productDto1;
+
+        ProductDto productReponseDTO = new ProductDto();
+        /*
+        call the service layer to save the product
+         */
+
+        //productService.createProduct(product);
+
+        Product product1 = productService.createProduct(prod.convertToProduct());
+        if(product1 != null){
+            return product1.covert(product1);
+        }
+        return productReponseDTO;
     }
 
+
+    @PutMapping("/products/{productId}")
+    ProductDto updateProduct(@PathVariable("productId") Long productId,
+                             @RequestBody ProductDto productDTO){
+
+        /*
+        productDto to product
+        pass productDTO and get the product back
+         */
+        ProductDto productReponseDTO = new ProductDto();
+        /*
+        call the service layer to update the product
+         */
+
+        Product product = productService.replaceProduct(productDTO.convertToProduct(), productId);
+
+        if(product != null){
+            return product.covert(product);
+        }
+        return null;
+    }
 }
