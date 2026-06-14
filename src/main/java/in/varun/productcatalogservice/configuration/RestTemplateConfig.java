@@ -6,10 +6,13 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class RestTemplateConfig {
+    /*
+    In cofigurations, we tell spring to create some library object and keep it /
+    manage it's lifecycle
+     */
 
     @Bean
-    public RestTemplate restTemplate()
-    {
+    public RestTemplate createRestTemplate() {
         return new RestTemplate();
     }
 }

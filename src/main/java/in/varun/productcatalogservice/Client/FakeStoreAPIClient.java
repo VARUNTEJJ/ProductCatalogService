@@ -1,6 +1,6 @@
 package in.varun.productcatalogservice.Client;
 
-import in.varun.productcatalogservice.Dtos.FakeStoreDto;
+import in.varun.productcatalogservice.Dtos.FakestoreProductDto;
 import jakarta.annotation.Nullable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
@@ -27,7 +27,7 @@ public class FakeStoreAPIClient {
         return restTemplate.execute(url, HttpMethod.PUT, requestCallback, responseExtractor, uriVariables);
     }
 
-    public static <T> ResponseEntity<T> getForEntity(String url, Class<T> responseType, Object... uriVariables) throws RestClientException {
+    public <T> ResponseEntity<T> getForEntity(String url, Class<T> responseType, Object... uriVariables) throws RestClientException {
         RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(responseType);
         ResponseExtractor<ResponseEntity<T>> responseExtractor = restTemplate.responseEntityExtractor(responseType);
         return restTemplate.execute(url, HttpMethod.GET, requestCallback, responseExtractor, uriVariables);
@@ -39,7 +39,7 @@ public class FakeStoreAPIClient {
     getForEntity
      */
 
-    public Boolean validateResponse(ResponseEntity<FakeStoreDto> fakeStoreProductDtoResponseEntity) {
+    public Boolean validateResponse(ResponseEntity<FakestoreProductDto> fakeStoreProductDtoResponseEntity) {
         if (fakeStoreProductDtoResponseEntity.hasBody() &&
                 fakeStoreProductDtoResponseEntity.getStatusCode().
                         equals(HttpStatusCode.valueOf(200))) {
@@ -49,3 +49,4 @@ public class FakeStoreAPIClient {
         return false;
     }
 }
+

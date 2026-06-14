@@ -1,6 +1,6 @@
 package in.varun.productcatalogservice.Model;
 
-public enum StateModel {
+public enum State {
     ACTIVE,
     INACTIVE
 }

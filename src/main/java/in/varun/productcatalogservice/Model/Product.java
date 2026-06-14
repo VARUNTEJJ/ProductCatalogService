@@ -1,56 +1,60 @@
 package in.varun.productcatalogservice.Model;
 
-import in.varun.productcatalogservice.Dtos.FakeStoreDto;
-import in.varun.productcatalogservice.Dtos.ProductDto;
+import in.varun.productcatalogservice.Dtos.CategoryDTO;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import in.varun.productcatalogservice.Dtos.FakestoreProductDto;
+import in.varun.productcatalogservice.Dtos.ProductDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
 @Setter
 @Getter
-@Entity
-public class Product extends BaseModel{
+public class Product extends BaseModel {
 
-      /*
-    name                          : String
-    description                  : String
-    price                            : Double
-    imageUrl                     : String
-    category                      : Category
-    */
+
     private String name;
     private String description;
     private Double price;
     private String imageUrl;
+
     @ManyToOne(cascade = CascadeType.ALL)
-    private CategoryModel category;
+    @JsonManagedReference
+    private Category category;
 
-    public ProductDto covert(Product product) {
-        ProductDto productDto=new ProductDto();
-        productDto.setId(product.getId());
-        productDto.setName(product.getName());
-        productDto.setPrice(product.getPrice());
-        productDto.setDescription(product.getDescription());
-        productDto.setImageUrl(product.getImageUrl());
-        CategoryModel categoryModel=new CategoryModel();
-        categoryModel.setName(product.getName());
-        productDto.setName(categoryModel.getName());
-        return productDto;
-    }
 
-    public FakeStoreDto convertToFakeStoreProduct(){
-        FakeStoreDto fakeStoreProductDto = new FakeStoreDto();
-        fakeStoreProductDto.setId(Math.toIntExact(this.getId()));
+
+    public FakestoreProductDto convertToFakeStoreProduct(){
+        FakestoreProductDto fakeStoreProductDto = new FakestoreProductDto();
+        fakeStoreProductDto.setId(this.getId());
         fakeStoreProductDto.setTitle(this.getName());
         fakeStoreProductDto.setPrice(this.getPrice());
         fakeStoreProductDto.setDescription(this.getDescription());
-        fakeStoreProductDto.setImageurl(this.getImageUrl());
+        fakeStoreProductDto.setImage(this.getImageUrl());
         if(this.getCategory() != null) {
             fakeStoreProductDto.setCategory(this.getCategory().getName());
         }
         return fakeStoreProductDto;
     }
- }
 
+    public ProductDTO convert(){
+        ProductDTO productDto = new ProductDTO();
+        productDto.setId(this.getId());
+        productDto.setName(this.getName());
+        productDto.setDescription(this.getDescription());
+        productDto.setPrice(this.getPrice());
+        productDto.setImageUrl(this.getImageUrl());
+        if(this.getCategory() != null) {
+            CategoryDTO categoryDto = new CategoryDTO();
+            categoryDto.setName(this.getCategory().getName());
+            categoryDto.setId(this.getCategory().getId());
+            categoryDto.setDescription(this.getCategory().getDescription());
+            productDto.setCategory(categoryDto);
+        }
+        return productDto;
+
+    }
+}

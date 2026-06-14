@@ -1,22 +1,28 @@
 package in.varun.productcatalogservice.Model;
 
-import jakarta.persistence.Entity;
-import lombok.Data;
+import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 @Setter
 @Getter
-@Entity
-public class BaseModel {
-      /*
+@MappedSuperclass
+public abstract class BaseModel {
+    /*
     -> id                                     : Long
     -> createdAt                        : Date
     -> lastUpdatedAt                 : Date
     -> state                                : Enum
      */
+
+    @Id
     private Long id;
-    private Data createdAt;
-    private Data lastUpdatedAt;
-    private StateModel state;
+    private Date createdAt; //store data in epoch format-> HW
+    private Date lastUpdatedAt;
+    private State state;
+
 }
