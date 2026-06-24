@@ -3,6 +3,9 @@ package in.varun.productcatalogservice.Model;
 import jakarta.persistence.*;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +23,7 @@ public abstract class BaseModel {
      */
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date createdAt; //store data in epoch format-> HW
     private Date lastUpdatedAt;

@@ -37,13 +37,18 @@ public class StorageProductService implements IProductService {
 
     @Override
     public Product createProduct(Product input) {
+
+        if (input.getId() == null) {
+            return productRepository.save(input);
+        }
         Optional<Product> optionalProduct = productRepository.findById(input.getId());
 
         if (optionalProduct.isEmpty()) {
             return productRepository.save(input);
         } else {
             // we can throw an exception that product already exists
-            return null;
+//            return null;
+            throw new RuntimeException("Product already exists");
         }
     }
 
